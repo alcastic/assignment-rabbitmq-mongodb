@@ -1,38 +1,27 @@
 package com.nisumlatam.assignment.controller;
 
-import com.nisumlatam.assignment.rabbitmq.IPublisher;
+import com.nisumlatam.assignment.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RabbitController {
 
     @Autowired
-    IPublisher send;
+    MessageService messageService;
 
-    @Autowired
-    IPublisher publisher;
 
-    @GetMapping("spring")
-    public ResponseEntity<Void> spring() {
-        try {
-            send.publishMessage("Be Original!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @PostMapping("messages")
+    public ResponseEntity<Void> postMessage(@RequestBody String message) throws Exception {
+        messageService.distributeMessage(message);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("pure")
-    public ResponseEntity<Void> pure() {
-        try {
-            publisher.publishMessage("Be Original!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public String errorHandler() {
+        return "Internal Server Error";
     }
 }

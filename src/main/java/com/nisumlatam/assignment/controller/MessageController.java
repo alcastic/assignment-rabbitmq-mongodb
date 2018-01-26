@@ -7,13 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class RabbitController {
+public class MessageController {
 
     @Autowired
     MessageService messageService;
 
-
-    @PostMapping("messages")
+    @PostMapping(value = "messages", consumes = "text/html")
     public ResponseEntity<Void> postMessage(@RequestBody String message) throws Exception {
         messageService.distributeMessage(message);
         return new ResponseEntity<>(HttpStatus.OK);

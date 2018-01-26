@@ -31,10 +31,16 @@ dependencies {
     testCompile('io.cucumber:cucumber-junit:2.3.1')
     testCompile('io.cucumber:cucumber-java:2.0.0')
 
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'io.rest-assured:rest-assured:3.0.6'
+    testCompile 'io.rest-assured:json-path:3.0.6'
+    testCompile 'io.rest-assured:json-schema-validator:3.0.6'
+    testCompile 'io.rest-assured:spring-mock-mvc:3.0.6'
+
     testCompile 'junit:junit:4.12'
 }
 
-test {
-    testLogging.showStandardStreams = true
-    systemProperties System.getProperties()
-}
+//test {
+//    testLogging.showStandardStreams = true
+//    systemProperties System.getProperties()
+//}

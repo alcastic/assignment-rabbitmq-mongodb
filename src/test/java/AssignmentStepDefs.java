@@ -3,6 +3,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class AssignmentStepDefs {
+    String message = "My Message";
+
     @Given("^i have a message to post$")
     public void i_have_a_message_to_post() throws Exception {
         // Write code here that turns the phrase above into concrete actions

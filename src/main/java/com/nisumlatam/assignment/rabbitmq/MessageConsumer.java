@@ -2,10 +2,12 @@ package com.nisumlatam.assignment.rabbitmq;
 
 import com.rabbitmq.client.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+@Component
 public class MessageConsumer implements IConsumer {
 
     @Value("${rabbitmq.host}")

@@ -1,5 +1,6 @@
 package com.nisumlatam.assignment.controller;
 
+import com.nisumlatam.assignment.domain.Message;
 import com.nisumlatam.assignment.service.MessageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.isEmptyString;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -30,7 +32,8 @@ public class MessageControllerTest {
 
     @Test
     public void postMessage_shouldReturn500_whenTextNotProvided() throws Exception {
-        doNothing().when(messageService).distributeMessage(anyString());
+        Message message = new Message("message");
+        when(messageService.distributeMessage(anyString())).thenReturn(message);
         this.mockMvc.perform(post("/messages")
                 .contentType(MediaType.TEXT_HTML)
                 .content(""))
@@ -40,7 +43,8 @@ public class MessageControllerTest {
 
     @Test
     public void postMessage_shouldReturnInternalServerErrorMessage_whenTextNotProvided() throws Exception {
-        doNothing().when(messageService).distributeMessage(anyString());
+        Message message = new Message("message");
+        when(messageService.distributeMessage(anyString())).thenReturn(message);
         this.mockMvc.perform(post("/messages")
                 .contentType(MediaType.TEXT_HTML)
                 .content(""))
@@ -51,7 +55,8 @@ public class MessageControllerTest {
 
     @Test
     public void postMessage_shouldReturn200_whenTextProvided() throws Exception {
-        doNothing().when(messageService).distributeMessage(anyString());
+        Message message = new Message("message");
+        when(messageService.distributeMessage(anyString())).thenReturn(message);
         this.mockMvc.perform(post("/messages")
                 .contentType(MediaType.TEXT_HTML)
                 .content("some message"))

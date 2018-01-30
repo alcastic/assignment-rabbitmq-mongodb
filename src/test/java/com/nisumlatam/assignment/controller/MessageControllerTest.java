@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.isEmptyString;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,7 +34,7 @@ public class MessageControllerTest {
         Message message = new Message("message");
         when(messageService.distributeMessage(anyString())).thenReturn(message);
         this.mockMvc.perform(post("/messages")
-                .contentType(MediaType.TEXT_HTML)
+                .contentType(MediaType.TEXT_PLAIN_VALUE)
                 .content(""))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
@@ -46,7 +45,7 @@ public class MessageControllerTest {
         Message message = new Message("message");
         when(messageService.distributeMessage(anyString())).thenReturn(message);
         this.mockMvc.perform(post("/messages")
-                .contentType(MediaType.TEXT_HTML)
+                .contentType(MediaType.TEXT_PLAIN_VALUE)
                 .content(""))
                 .andDo(print())
                 .andExpect(status().isInternalServerError())
@@ -58,7 +57,7 @@ public class MessageControllerTest {
         Message message = new Message("message");
         when(messageService.distributeMessage(anyString())).thenReturn(message);
         this.mockMvc.perform(post("/messages")
-                .contentType(MediaType.TEXT_HTML)
+                .contentType(MediaType.TEXT_PLAIN_VALUE)
                 .content("some message"))
                 .andDo(print())
                 .andExpect(status().isOk())

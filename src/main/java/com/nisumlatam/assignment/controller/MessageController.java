@@ -12,7 +12,7 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
-    @PostMapping(value = "messages", consumes = "text/html")
+    @PostMapping(value = "messages", consumes = "text/plain")
     public ResponseEntity<Void> postMessage(@RequestBody String message) throws Exception {
         messageService.distributeMessage(message);
         return new ResponseEntity<>(HttpStatus.OK);

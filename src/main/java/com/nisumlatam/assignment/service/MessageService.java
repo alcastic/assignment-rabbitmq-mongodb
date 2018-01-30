@@ -2,6 +2,7 @@ package com.nisumlatam.assignment.service;
 
 import com.nisumlatam.assignment.domain.Message;
 import com.nisumlatam.assignment.rabbitmq.IPublisher;
+import com.nisumlatam.assignment.rabbitmq.SpringAMQPSender;
 import com.nisumlatam.assignment.repository.MessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

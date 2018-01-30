@@ -1,7 +1,7 @@
 package com.nisumlatam.assignment.service;
 
 import com.nisumlatam.assignment.domain.Message;
-import com.nisumlatam.assignment.rabbitmq.IPublisher;
+import com.nisumlatam.assignment.rabbitmq.ISender;
 import com.nisumlatam.assignment.repository.MessageRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +29,7 @@ public class MessageServiceTest {
     MessageRepository messageRepository;
 
     @Mock
-    IPublisher publisher;
+    ISender publisher;
 
     @Test(expected = IllegalArgumentException.class)
     public void deleteByID_shouldThrowsIllegalArgumentException_whenNullId() {

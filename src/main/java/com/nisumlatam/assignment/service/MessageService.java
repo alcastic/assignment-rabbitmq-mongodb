@@ -1,11 +1,11 @@
 package com.nisumlatam.assignment.service;
 
 import com.nisumlatam.assignment.domain.Message;
-import com.nisumlatam.assignment.rabbitmq.IPublisher;
-import com.nisumlatam.assignment.rabbitmq.SpringAMQPSender;
+import com.nisumlatam.assignment.rabbitmq.ISender;
 import com.nisumlatam.assignment.repository.MessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +20,17 @@ public class MessageService implements IMessageService {
     MessageRepository messageRepository;
 
     @Autowired
-    IPublisher publisher;
+    ISender sender;
+
+    @Autowired
+    Queue inQueue;
 
     @Override
     public Message distributeMessage(String message) {
         Message msg = null;
         LOGGER.debug("publishing message into RabbitMQ");
         try {
-            publisher.publishMessage("Be Original!");
+            sender.publishMessage(inQueue, message);
             msg = messageRepository.save(new Message(message));
         } catch (Exception e) {
             LOGGER.debug("Error publishing message in RabbitMQ");

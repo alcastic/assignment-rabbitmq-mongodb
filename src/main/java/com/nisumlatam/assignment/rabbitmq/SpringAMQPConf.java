@@ -8,8 +8,13 @@ import org.springframework.context.annotation.Configuration;
 public class SpringAMQPConf {
 
     @Bean
-    public Queue hello() {
-        return new Queue("hello");
+    public Queue inQueue() {
+        return new Queue("in-queue");
+    }
+
+    @Bean
+    public Queue outQueue() {
+        return new Queue("out-queue");
     }
 
     @Bean

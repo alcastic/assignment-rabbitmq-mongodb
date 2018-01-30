@@ -1,19 +1,23 @@
 package com.nisumlatam.assignment.rabbitmq;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class SpringAMQPSender {
+@Component
+public class SpringAMQPSender implements ISender {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringAMQPSender.class);
+
     @Autowired
     private RabbitTemplate template;
 
-    @Autowired
-    private Queue queue;
-
-    public void send() {
-        String message = "Hello World!";
+    @Override
+    public void publishMessage(Queue queue, String message) {
         this.template.convertAndSend(queue.getName(), message);
-        System.out.println(" [x] Sent '" + message + "'");
+        LOGGER.info("Sent '" + message + "'");
     }
 }

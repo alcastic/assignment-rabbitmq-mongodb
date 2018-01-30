@@ -23,24 +23,41 @@ repositories {
     mavenCentral()
 }
 
+
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-amqp")
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-web')
 
-    testCompile('io.cucumber:cucumber-junit:2.3.1')
-    testCompile('io.cucumber:cucumber-java:2.0.0')
-
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile 'io.rest-assured:rest-assured:3.0.6'
-    testCompile 'io.rest-assured:json-path:3.0.6'
-    testCompile 'io.rest-assured:json-schema-validator:3.0.6'
-    testCompile 'io.rest-assured:spring-mock-mvc:3.0.6'
-
     testCompile 'junit:junit:4.12'
-}
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 
-test {
-    testLogging.showStandardStreams = true
-    systemProperties System.getProperties()
+    integrationTestCompile('io.cucumber:cucumber-junit:2.3.1')
+    integrationTestCompile('io.cucumber:cucumber-java:2.0.0')
 }

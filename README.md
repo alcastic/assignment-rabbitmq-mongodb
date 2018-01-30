@@ -3,7 +3,7 @@
 This assignment is a preheating for a production project. It covers Springboot, mongo and rabbitmq integration, testing frameworks : Junit with Mockito and Java Cucumber
 
 # Features
-To see the features that this project solve [click-here](src/test/resources/features/assignment.feature)
+To see the features that this project solve [click-here](src/integration-test/resources/features/assignment.feature)
 
 ## Spring Modules and Dependencies
 

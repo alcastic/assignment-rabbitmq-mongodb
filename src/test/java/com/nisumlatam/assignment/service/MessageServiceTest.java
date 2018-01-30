@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.amqp.core.Queue;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
@@ -29,7 +30,10 @@ public class MessageServiceTest {
     MessageRepository messageRepository;
 
     @Mock
-    ISender publisher;
+    ISender sender;
+
+    @Mock
+    Queue inQueue;
 
     @Test(expected = IllegalArgumentException.class)
     public void deleteByID_shouldThrowsIllegalArgumentException_whenNullId() {
@@ -166,7 +170,7 @@ public class MessageServiceTest {
     @Test
     public void distributeMessage_shouldReturnNull_whenErrorPushingMessageToRabbitMQ() throws Exception {
         String message = "a message";
-        doThrow(new RuntimeException()).when(publisher).publishMessage(anyString());
+        doThrow(new RuntimeException()).when(sender).publishMessage(any(Queue.class), anyString());
 
         // act
         Message result = messageService.distributeMessage(message);

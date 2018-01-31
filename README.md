@@ -26,10 +26,16 @@ Once MongoDB and RabbitMQ services are running locally with their default config
 $ ./gradlew bootRun
 ```
 
-## Running the tests
+## Running the unit tests
 
 ```
 $ ./gradlew test
+```
+
+## Running the acceptance tests
+
+```
+$ ./gradlew acceptanceTest
 ```
 
 ## Authors

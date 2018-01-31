@@ -1,4 +1,9 @@
-To run a docker RabbitMQ container with default port configuration
+# External Services Servers
+
+Once you have **docker** installed in your machine start the following containers before start **assignment app**
+
+1. To run a docker RabbitMQ container with default port configuration
+
 ```
 $ docker run -d \
     --name="rabbit1" \
@@ -16,8 +21,14 @@ $ docker run -d \
     rabbitmq:3-management
 ```
 
-To run a docker MongoDB container with default port configuration
+2. To run a docker MongoDB container with default port configuration
+
 ```
 $ docker run -d -p 27017:27017 -p 28017:28017 tutum/mongodb
 ```
 
+3. Now you are able to lunch this app, from terminal:
+
+```
+./gradlew bootRun
+```

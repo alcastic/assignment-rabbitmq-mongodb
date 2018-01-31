@@ -18,7 +18,7 @@ To see the features that this project solve [click-here](src/acceptanceTest/reso
 
 ## External Services Configuration
 You can easily start external services servers for MongoDB and RabbitMQ through docker containers.
-To start docker containers read [int-docker-containers](dependencies.docker.container.start.md)
+To start docker containers read [int-docker-containers](etc/dependencies.docker.container.start.md)
 
 ## Launch REST API
 Once MongoDB and RabbitMQ services are running locally with their default configuration execute from a terminal:

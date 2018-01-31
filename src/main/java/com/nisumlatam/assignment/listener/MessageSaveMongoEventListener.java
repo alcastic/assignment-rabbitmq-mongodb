@@ -21,10 +21,10 @@ public class MessageSaveMongoEventListener extends AbstractMongoEventListener<Me
     private ISender sender;
 
     @Autowired
-    Queue inQueue;
+    private Queue inQueue;
 
     @Autowired
-    Queue outQueue;
+    private Queue outQueue;
 
     @Override
     public void onAfterSave(AfterSaveEvent<Message> event) {

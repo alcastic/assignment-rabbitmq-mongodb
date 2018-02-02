@@ -23,7 +23,7 @@ public class StepDefHome {
     WebApplicationContext webApplicationContext;
 
     @Autowired
-    protected TestRestTemplate template;
+    protected TestRestTemplate testRestTemplate;
 
     @Given("my spring boot app is running")
     public void my_spring_boot_app_is_running() {
@@ -32,7 +32,7 @@ public class StepDefHome {
 
     @When("^client calls \"([^\"]*)\"$")
     public void client_calls(String path) {
-        response = template.getForEntity(path, String.class);
+        response = testRestTemplate.getForEntity(path, String.class);
     }
 
     @Then("^client resive the message \"([^\"]*)\"$")

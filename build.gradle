@@ -58,7 +58,7 @@ dependencies {
     acceptanceTestCompile('info.cukes:cucumber-junit:1.2.5')
     acceptanceTestCompile('info.cukes:cucumber-spring:1.2.5')
 
-    provided group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.0.1'
+    acceptanceTestCompile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.0.1'
 }
 
 task wrapper(type: Wrapper) {

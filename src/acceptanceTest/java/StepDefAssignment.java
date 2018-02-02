@@ -5,12 +5,14 @@ import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(classes = AssignmentApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration
 public class StepDefAssignment {
+    String messageToPost;
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -20,6 +22,7 @@ public class StepDefAssignment {
 
     @Given("^i have a message to post$")
     public void i_have_a_message_to_post() {
+        messageToPost = "a_message_to_post";
     }
 
     @Given("^rabbitmq in-queue is configured$")
@@ -36,6 +39,13 @@ public class StepDefAssignment {
 
     @When("^I trigger a post endpoint$")
     public void i_trigger_a_post_endpoint() {
+        String data = messageToPost;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+
+        HttpEntity<String> request = new HttpEntity<>(data, headers);
+        String url = "/messages";
+        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     @Then("^I should see message posted to rabbitmq in-queue$")

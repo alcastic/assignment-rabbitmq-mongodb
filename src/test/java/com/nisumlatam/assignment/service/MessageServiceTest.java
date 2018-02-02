@@ -153,7 +153,7 @@ public class MessageServiceTest {
     }
 
     @Test
-    public void distributeMessage_shouldReturnAMessageObjectWithTheProvidedMessage() {
+    public void distributeMessage_shouldReturnAMessageObjectWithTheProvidedMessage() throws Exception {
         String expected = "a message";
         Message message = new Message(expected);
         when(messageRepository.save(any(Message.class))).thenReturn(message);
@@ -165,15 +165,12 @@ public class MessageServiceTest {
         assertEquals(result, expected);
     }
 
-    @Test
-    public void distributeMessage_shouldReturnNull_whenErrorPushingMessageToRabbitMQ() throws Exception {
+    @Test(expected = RuntimeException.class)
+    public void distributeMessage_shouldThrowsException_whenErrorPushingMessageToRabbitMQ() throws Exception {
         String message = "a message";
         doThrow(new RuntimeException()).when(sender).publishMessage(any(Queue.class), anyString());
 
         // act
-        Message result = messageService.distributeMessage(message);
-
-        // assert
-        assertNull(result);
+        messageService.distributeMessage(message);
     }
 }

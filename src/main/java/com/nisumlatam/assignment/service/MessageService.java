@@ -26,7 +26,7 @@ public class MessageService implements IMessageService {
     Queue inQueue;
 
     @Override
-    public Message distributeMessage(String message) {
+    public Message distributeMessage(String message) throws Exception {
         Message msg = null;
         LOGGER.debug("publishing message into RabbitMQ");
         try {
@@ -34,6 +34,7 @@ public class MessageService implements IMessageService {
             msg = messageRepository.save(new Message(message));
         } catch (Exception e) {
             LOGGER.debug("Error publishing message in RabbitMQ");
+            throw e;
         }
         return msg;
     }

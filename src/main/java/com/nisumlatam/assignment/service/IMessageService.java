@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IMessageService {
 
-    Message distributeMessage(String message);
+    Message distributeMessage(String message) throws Exception;
 
     Message saveMessage(Message message);
 

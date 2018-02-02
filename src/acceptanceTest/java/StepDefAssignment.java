@@ -2,7 +2,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class AssignmentStepDefs {
+public class StepDefAssignment extends SpringIntegrationTest {
 
     @Given("^i have a message to post$")
     public void i_have_a_message_to_post() throws Exception {

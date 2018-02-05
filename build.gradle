@@ -50,7 +50,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-web')
 
-    testCompile 'junit:junit:4.12'
+    testCompile('junit:junit:4.12')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     acceptanceTestCompile('info.cukes:cucumber-core:1.2.5')
@@ -59,6 +59,8 @@ dependencies {
     acceptanceTestCompile('info.cukes:cucumber-spring:1.2.5')
 
     acceptanceTestCompile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.0.1'
+
+    compile ('org.apache.qpid:qpid-broker:6.0.2')
 }
 
 task wrapper(type: Wrapper) {

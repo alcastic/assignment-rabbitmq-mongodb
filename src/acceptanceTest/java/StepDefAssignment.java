@@ -9,7 +9,11 @@ import org.springframework.http.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
-@SpringBootTest(classes = AssignmentApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import static org.junit.Assert.assertNotNull;
+
+@SpringBootTest(
+        classes = AssignmentApplication.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration
 public class StepDefAssignment {
     String messageToPost;
@@ -20,13 +24,17 @@ public class StepDefAssignment {
     @Autowired
     protected TestRestTemplate testRestTemplate;
 
+    EmbeddedQpidBroker broker;
+
     @Given("^i have a message to post$")
     public void i_have_a_message_to_post() {
         messageToPost = "a_message_to_post";
     }
 
     @Given("^rabbitmq in-queue is configured$")
-    public void rabbitmq_in_queue_is_configured() {
+    public void rabbitmq_in_queue_is_configured() throws Exception {
+        broker = new EmbeddedQpidBroker();
+        broker.start();
     }
 
     @Given("^listener is up and running$")
@@ -35,6 +43,7 @@ public class StepDefAssignment {
 
     @Given("^my spring boot app is up and running$")
     public void my_spring_boot_app_is_up_and_running() {
+        assertNotNull(webApplicationContext);
     }
 
     @When("^I trigger a post endpoint$")
@@ -70,5 +79,6 @@ public class StepDefAssignment {
 
     @Then("^post to rabbitmq out-queue$")
     public void post_to_rabbitmq_out_queue() {
+        broker.stop();
     }
 }

@@ -1,4 +1,8 @@
 import com.nisumlatam.assignment.AssignmentApplication;
+import com.nisumlatam.assignment.domain.Message;
+import com.nisumlatam.assignment.listener.MessageSaveMongoEventListener;
+import com.nisumlatam.assignment.repository.MessageRepository;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -10,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 @SpringBootTest(
         classes = AssignmentApplication.class,
@@ -20,6 +25,12 @@ public class StepDefAssignment {
 
     @Autowired
     WebApplicationContext webApplicationContext;
+
+    @Autowired
+    MessageSaveMongoEventListener messageSaveMongoEventListener;
+
+    @Autowired
+    MessageRepository messageRepository;
 
     @Autowired
     protected TestRestTemplate testRestTemplate;
@@ -39,6 +50,7 @@ public class StepDefAssignment {
 
     @Given("^listener is up and running$")
     public void listener_is_up_and_running() {
+        assertNotNull(messageSaveMongoEventListener);
     }
 
     @Given("^my spring boot app is up and running$")
@@ -59,18 +71,23 @@ public class StepDefAssignment {
 
     @Then("^I should see message posted to rabbitmq in-queue$")
     public void i_should_see_message_posted_to_rabbitmq_in_queue() {
+        // unknown how to check message into queue without pull it
     }
 
-    @Then("^I should see message saved to mongodb$")
+    @And("^I should see message saved to mongodb$")
     public void i_should_see_message_saved_to_mongodb() {
+        assertSame(messageRepository.findAll().size(), 1);
     }
 
     @Given("^i have a mongo event listener configured$")
     public void i_have_a_mongo_event_listener_configured() {
+        assertNotNull(messageSaveMongoEventListener);
     }
 
     @When("^message saved into mongo$")
     public void message_saved_into_mongo() {
+        Message message = new Message().setMessage("a_message");
+        messageRepository.save(message);
     }
 
     @Then("^I should see mongo listener picks the message$")

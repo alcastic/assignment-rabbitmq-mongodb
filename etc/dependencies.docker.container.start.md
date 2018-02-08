@@ -24,7 +24,7 @@ $ docker run -d \
 2. To run a docker MongoDB container with default port configuration
 
 ```
-$ docker run -d -p 27017:27017 -p 28017:28017 tutum/mongodb
+$ docker run --name some-mongo -p 27017:27017 -d mongo
 ```
 
 3. Now you are able to lunch this app, from terminal:

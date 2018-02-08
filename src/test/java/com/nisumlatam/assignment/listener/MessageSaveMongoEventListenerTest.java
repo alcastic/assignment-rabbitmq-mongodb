@@ -37,6 +37,8 @@ public class MessageSaveMongoEventListenerTest {
     @Test
     public void onAfterSave_shouldCallReceiverConsumeMessageMethod() throws Exception {
         AfterSaveEvent<Message> event = mock(AfterSaveEvent.class);
+        Message message = new Message().setMessage("a_message");
+        when(event.getSource()).thenReturn(message);
         messageSaveMongoEventListener.onAfterSave(event);
         verify(receiver, only()).consumeMessage(any(Queue.class));
     }
@@ -44,15 +46,16 @@ public class MessageSaveMongoEventListenerTest {
     @Test
     public void onAfterSave_shouldCallSenderPublishMessageMethod() throws Exception {
         AfterSaveEvent<Message> event = mock(AfterSaveEvent.class);
-        when(receiver.consumeMessage(any(Queue.class))).thenReturn("a message");
+        Message message = new Message().setMessage("a_message");
+        when(event.getSource()).thenReturn(message);
         messageSaveMongoEventListener.onAfterSave(event);
         verify(sender, only()).publishMessage(any(Queue.class), anyString());
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void onAfterSave_shouldNotThrowsException_whenInternalError() throws Exception {
         AfterSaveEvent<Message> event = mock(AfterSaveEvent.class);
-        when(receiver.consumeMessage(any(Queue.class))).thenThrow(new IOException());
+        doThrow(new IOException()).when(sender).publishMessage(outQueue, anyString());
         messageSaveMongoEventListener.onAfterSave(event);
         verify(receiver, only()).consumeMessage(any(Queue.class));
     }

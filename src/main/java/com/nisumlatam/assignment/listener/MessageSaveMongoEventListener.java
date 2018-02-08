@@ -1,7 +1,6 @@
 package com.nisumlatam.assignment.listener;
 
 import com.nisumlatam.assignment.domain.Message;
-import com.nisumlatam.assignment.rabbitmq.IReceiver;
 import com.nisumlatam.assignment.rabbitmq.ISender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +14,6 @@ public class MessageSaveMongoEventListener extends AbstractMongoEventListener<Me
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageSaveMongoEventListener.class);
 
     @Autowired
-    private IReceiver receiver;
-
-    @Autowired
     private ISender sender;
 
     @Autowired
@@ -29,11 +25,12 @@ public class MessageSaveMongoEventListener extends AbstractMongoEventListener<Me
     @Override
     public void onAfterSave(AfterSaveEvent<Message> event) {
         try {
-            String message = receiver.consumeMessage(inQueue);
-            LOGGER.info("Message consumed: " + message);
+            String message = event.getSource().getMessage();
+            LOGGER.debug("Message picked: " + message);
             sender.publishMessage(outQueue, message);
         } catch (Exception e) {
-            LOGGER.error("Error consuming service");
+            LOGGER.error("Error publishing into out-queue");
+            throw new RuntimeException("Error publishing");
         }
     }
 }

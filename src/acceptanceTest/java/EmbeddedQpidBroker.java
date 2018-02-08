@@ -8,8 +8,8 @@ public class EmbeddedQpidBroker {
     public static final String EMBEDDED_BROKER = "embedded-broker";
 
 
-    private final Broker broker = new Broker();
-    private final BrokerOptions brokerOptions = new BrokerOptions();
+    protected final Broker broker = new Broker();
+    protected final BrokerOptions brokerOptions = new BrokerOptions();
 
     public EmbeddedQpidBroker() {
         brokerOptions.setConfigProperty("broker.name", EMBEDDED_BROKER);

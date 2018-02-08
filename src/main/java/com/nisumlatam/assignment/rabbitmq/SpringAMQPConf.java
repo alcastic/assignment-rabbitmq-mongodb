@@ -30,7 +30,7 @@ public class SpringAMQPConf {
     }
 
     @Bean
-    public Binding bindingIN(@Qualifier("outQueue") Queue queue, DirectExchange directExchange) {
+    public Binding bindingIN(@Qualifier("inQueue") Queue queue, DirectExchange directExchange) {
         return BindingBuilder.bind(queue).to(directExchange).with(queue.getName());
     }
 

@@ -20,28 +20,13 @@ import static org.mockito.Mockito.*;
 public class MessageSaveMongoEventListenerTest {
 
     @Mock
-    private IReceiver receiver;
-
-    @Mock
     private ISender sender;
-
-    @Mock
-    Queue inQueue;
 
     @Mock
     Queue outQueue;
 
     @InjectMocks
     MessageSaveMongoEventListener messageSaveMongoEventListener;
-
-    @Test
-    public void onAfterSave_shouldCallReceiverConsumeMessageMethod() throws Exception {
-        AfterSaveEvent<Message> event = mock(AfterSaveEvent.class);
-        Message message = new Message().setMessage("a_message");
-        when(event.getSource()).thenReturn(message);
-        messageSaveMongoEventListener.onAfterSave(event);
-        verify(receiver, only()).consumeMessage(any(Queue.class));
-    }
 
     @Test
     public void onAfterSave_shouldCallSenderPublishMessageMethod() throws Exception {
@@ -55,8 +40,10 @@ public class MessageSaveMongoEventListenerTest {
     @Test(expected = RuntimeException.class)
     public void onAfterSave_shouldNotThrowsException_whenInternalError() throws Exception {
         AfterSaveEvent<Message> event = mock(AfterSaveEvent.class);
-        doThrow(new IOException()).when(sender).publishMessage(outQueue, anyString());
+        Message message = new Message().setMessage("a_message");
+        when(event.getSource()).thenReturn(message);
+        doThrow(new IOException()).when(sender).publishMessage(any(Queue.class), anyString());
         messageSaveMongoEventListener.onAfterSave(event);
-        verify(receiver, only()).consumeMessage(any(Queue.class));
     }
+
 }

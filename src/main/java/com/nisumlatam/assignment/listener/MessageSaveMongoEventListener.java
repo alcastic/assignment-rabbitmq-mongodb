@@ -17,9 +17,6 @@ public class MessageSaveMongoEventListener extends AbstractMongoEventListener<Me
     private ISender sender;
 
     @Autowired
-    private Queue inQueue;
-
-    @Autowired
     private Queue outQueue;
 
     @Override
